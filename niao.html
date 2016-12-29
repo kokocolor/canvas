@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<title></title>
+	<style type="text/css">
+	body{
+		overflow: hidden;
+		background: #000;
+	}
+ 
+#canvas{
+	 
+	position: absolute;
+	top:0;
+	left:0;
+
+	 
+}
+img{
+ 
+	position: absolute;
+	display: block;
+	top:0;
+	left:0; 
+	z-index: 1;
+	
+}
+#canvas{
+	/*position: absolute;
+	top:0;
+	left:0;*/
+	z-index: 100;
+
+}
+	</style>
+</head>
+<body>
+	<!-- <canvas id="canvas1"></canvas> -->
+	<img src="niao.gif" alt=""  class="canvas" id="img"/>
+	<canvas id="canvas" class="canvas"></canvas>
+	<!-- <img src="img/logo.png" alt="" id="img"/> -->
+	<script>
+	// var canvass=document.getElementById("canvas1");
+ //    var ctxx=canvass.getContext("2d");
+
+	var canvas=document.getElementById("canvas");
+	var img=document.getElementById("img");
+	img.width=window.innerWidth;
+	img.height = window.innerHeight;
+	var ctx=canvas.getContext("2d");
+	var rot_2=2*Math.PI;
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+
+	// canvass.width = window.innerWidth;
+	// canvass.height = window.innerHeight;
+	  
+	var arr=[];
+	var img=new Image();
+	img.src="img/moons.jpg";
+	// img.onload=function(){
+		
+		 
+	// 	ctxx.drawImage(img,0,0,window.innerWidth,window.innerHeight);
+		 
+	// };
+	animate();
+	function randomColor(){
+		// var r=Math.floor(Math.random()*250);
+		// var g=Math.floor(Math.random()*250);
+		// var b=Math.floor(Math.random()*250);
+
+		var r=255;
+		var g=255;
+		var b=255;
+		var a=0.9;
+		return "rgba("+r+","+g+","+b+","+a+")";
+	}
+
+ 
+	function particle(x,y){
+		this.x=x;
+		this.y=y;
+		this.dx=-1.5+Math.random()*3;
+		this.dy=1+Math.random()*2;
+		this.color=randomColor();
+		this.size=2+Math.floor(Math.random()*4);
+
+		this.draw=function(){
+			ctx.beginPath();
+			ctx.fillStyle=this.color;
+			ctx.arc(this.x,this.y,this.size,0,rot_2,false);
+			ctx.fill();
+			ctx.closePath();
+			this.update();
+		}
+		this.update=function(){
+			this.x+=this.dx;
+			this.y+=this.dy;
+		}
+	}
+
+	function draw(){
+		for (var i =0; i<arr.length; i++) {
+			 arr[i].draw();
+		}
+	}
+	// canvas.addEventListener("mousemove",function(e){
+	// 	var mouseX,mouseY;
+	// 	if(e.offsetX){
+	// 		mouseX=e.offsetX;
+	// 		mouseY=e.offsetY;
+	// 	}else if(e.layerX){
+	// 		mouseX=e.layerX;
+	// 		mouseY=e.layerY;
+
+	// 	}
+	// 	for(var i=0;i<1;i++){
+	// 		var p=new particle(mouseX,mouseY);
+	// 		arr.push(p);
+	// 	}
+		
+	// },false);
+var kx=800,ky=100;
+setInterval(function(){
+		for(var i=0;i<3;i++){
+			var p=new particle(kx,-700);
+			arr.push(p);
+			if(kx==1500){
+				kx=10;
+			}
+		}
+},100);
+
+
+
+	function animate(){
+		ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+		draw();
+		window.requestAnimationFrame(animate);
+	}
+	window.addEventListener("resize", function() {
+		canvas.width = window.innerWidth;
+	    canvas.height = window.innerHeight; 
+
+
+		img.width=window.innerWidth;
+		img.height = window.innerHeight;
+	    
+	 });
+
+
+
+
+	</script>
+</body>
+</html>
